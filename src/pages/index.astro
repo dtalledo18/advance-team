@@ -119,11 +119,19 @@ import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 </footer>
 
 <script>
-	import { initSmoke } from '../scripts/smoke.js';
-	import { initLenis } from '../scripts/lenis.js';
-	import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
-	import {initTrail} from "../scripts/trail";
+	import { initMouse }             from '../scripts/mouse.js';
+	import { initSmoke }             from '../scripts/smoke.js';
+	import { initLenis }             from '../scripts/lenis.js';
+	import { initTrail }             from '../scripts/trail.js';
+	import { initPreloader,
+		initScrollAnimations }  from '../scripts/animations.js';
 
+	// ⚠️ Orden importante:
+	// 1. initMouse PRIMERO — centraliza el estado del cursor para smoke y trail
+	// 2. Lenis — establece el loop de scroll
+	// 3. Preloader + ScrollAnimations — GSAP
+	// 4. Cursor, Smoke, Trail — leen de mouse.js, van al final
+	initMouse();
 	initLenis();
 	initPreloader();
 	initScrollAnimations();
