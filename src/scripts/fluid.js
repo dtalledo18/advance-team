@@ -4,9 +4,8 @@ window.addEventListener('load', () => {
 });
 
 export const initFluid = () => {
-    const canvas = document.getElementById('fluid');
-    if (!canvas) return;
 
+    const canvas = document.getElementById('fluid');
     resizeCanvas();
 
     let config = {
