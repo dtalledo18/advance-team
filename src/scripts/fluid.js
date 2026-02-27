@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
 });
 
 export const initFluid = () => {
+    let initialized = false;
     let lastSplatTime = 0;
     const SPLAT_COOLDOWN = 1000;
     const canvas = document.getElementById('fluid');
@@ -972,14 +973,17 @@ export const initFluid = () => {
     }
 
     window.addEventListener('touchstart', e => {
-        // No necesitamos preventDefault aquí si queremos scroll
         const touches = e.targetTouches;
-        const pointer = pointers[0];
+        let pointer = pointers[0];
 
-        // Solo procesamos el primer toque para máxima estabilidad en móvil
+        if (!initialized) {
+            update(); // Despierta el motor
+            initialized = true;
+        }
+
         if (touches.length > 0) {
-            const posX = scaleByPixelRatio(touches[0].clientX);
-            const posY = scaleByPixelRatio(touches[0].clientY);
+            let posX = scaleByPixelRatio(touches[0].clientX);
+            let posY = scaleByPixelRatio(touches[0].clientY);
             updatePointerDownData(pointer, touches[0].identifier, posX, posY);
         }
     }, { passive: true });
@@ -987,12 +991,24 @@ export const initFluid = () => {
     window.addEventListener('touchmove', e => {
         const touches = e.targetTouches;
         let pointer = pointers[0];
-        for (let i = 0; i < touches.length; i++) {
-            let posX = scaleByPixelRatio(touches[i].clientX);
-            let posY = scaleByPixelRatio(touches[i].clientY);
+
+        // ESTO ES LO QUE FALTA:
+        // Si el usuario desliza sin haber hecho un "tap" previo, despertamos el motor aquí
+        if (!initialized) {
+            update();
+            initialized = true;
+            // Opcional: inyectar un punto inicial donde empezó el movimiento
+            let posX = scaleByPixelRatio(touches[0].clientX);
+            let posY = scaleByPixelRatio(touches[0].clientY);
+            updatePointerDownData(pointer, touches[0].identifier, posX, posY);
+        }
+
+        if (touches.length > 0) {
+            let posX = scaleByPixelRatio(touches[0].clientX);
+            let posY = scaleByPixelRatio(touches[0].clientY);
             updatePointerMoveData(pointer, posX, posY, pointer.color);
         }
-    }, false);
+    }, { passive: true });
 
     window.addEventListener('touchend', e => {
         const touches = e.changedTouches;
