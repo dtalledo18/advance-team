@@ -952,30 +952,15 @@ export const initFluid = () => {
         updatePointerMoveData(pointer, posX, posY, color);
     });
 
-    if (isTouchDevice) {
-        // --- LÓGICA PARA MOBILE (Prioriza Scroll) ---
-        window.addEventListener('touchstart', e => {
-            const touches = e.targetTouches;
-            let pointer = pointers[0];
-
-            // El update solo es crítico aquí para "despertar" el motor en mobile
-            update();
-
-            for (let i = 0; i < touches.length; i++) {
-                let posX = scaleByPixelRatio(touches[i].clientX);
-                let posY = scaleByPixelRatio(touches[i].clientY);
-                updatePointerDownData(pointer, touches[i].identifier, posX, posY);
-            }
-        }, { passive: true });
-
-    }
-
-    // Touchend se mantiene igual para limpiar datos del puntero
-    window.addEventListener('touchend', e => {
-        const touches = e.changedTouches;
+    window.addEventListener('touchstart', e => {
+        const touches = e.targetTouches;
+        let touch = touches[0]
         let pointer = pointers[0];
         for (let i = 0; i < touches.length; i++) {
-            updatePointerUpData(pointer);
+            let posX = scaleByPixelRatio(touches[i].clientX);
+            let posY = scaleByPixelRatio(touches[i].clientY);
+            update();
+            updatePointerDownData(pointer, touches[i].identifier, posX, posY);
         }
     });
 
