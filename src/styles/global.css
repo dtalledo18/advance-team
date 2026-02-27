@@ -28,8 +28,14 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100dvw;
-    height: 100dvh;
+    width: 100%;
+    height: 100%;
+    /* Ponlo justo debajo del grano pero sobre el fondo negro */
+    z-index: 1;
+    /* Esta línea es un arma de doble filo:
+       Si es 'none', el humo NO detectará el dedo en algunos navegadores.
+       Si falla, prueba quitando esta línea y pon el canvas al final del body */
+    pointer-events: auto;
 }
 
 /* CURSOR */
@@ -110,6 +116,17 @@ nav a::after {
     transition: width .4s cubic-bezier(.76,0,.24,1);
 }
 nav a:hover::after { width: 100%; }
+
+header, section, footer {
+    position: relative;
+    z-index: 2;
+    /* Esto permite que el click pase al canvas si no hay link */
+    pointer-events: none;
+}
+
+a, button, .service-inner, .contact-cta {
+    pointer-events: auto;
+}
 
 /* HERO */
 .hero {
