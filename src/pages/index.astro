@@ -2,7 +2,6 @@
 // index.astro
 import '../styles/global.css';
 import { initSmoke } from '../scripts/smoke.js';
-import { initCursor } from '../scripts/cursor.js';
 import { initLenis } from '../scripts/lenis.js';
 import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 ---
@@ -120,17 +119,16 @@ import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 </footer>
 
 <script>
-	import { initSmoke }            from '../scripts/smoke.js';
-	import { initCursor }           from '../scripts/cursor.js';
-	import { initLenis }            from '../scripts/lenis.js';
-	import { initPreloader,
-		initScrollAnimations } from '../scripts/animations.js';
+	import { initSmoke } from '../scripts/smoke.js';
+	import { initLenis } from '../scripts/lenis.js';
+	import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
+	import {initTrail} from "../scripts/trail";
 
 	initLenis();
 	initPreloader();
 	initScrollAnimations();
-	initCursor();
 	initSmoke();
+	initTrail();
 </script>
 
 </body>

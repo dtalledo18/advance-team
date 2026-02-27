@@ -15,12 +15,22 @@ body {
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
     overflow-x: hidden;
-    cursor: default !important;
+    cursor: none;
 }
 
 /* CURSOR */
 #cursor {
-    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 10px; height: 10px;
+    background: var(--white);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width .25s ease, height .25s ease;
+    mix-blend-mode: difference;
+    will-change: left, top;
 }
 #cursor.hovering { width: 44px; height: 44px; }
 

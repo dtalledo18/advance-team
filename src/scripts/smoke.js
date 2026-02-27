@@ -180,7 +180,7 @@ export function initSmoke() {
         const dx  = currentX - prevX;
         const dy  = currentY - prevY;
         const vel = Math.sqrt(dx * dx + dy * dy) * 120;
-        speed    += (vel - speed) * 0.1; 
+        speed    += (vel - speed) * 0.1;
         prevX = currentX;
         prevY = currentY;
 
