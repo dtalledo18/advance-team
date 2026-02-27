@@ -1,9 +1,6 @@
 ---
-// index.astro
+// src/pages/index.astro
 import '../styles/global.css';
-import { initSmoke } from '../scripts/smoke.js';
-import { initLenis } from '../scripts/lenis.js';
-import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 ---
 
 <html lang="es">
@@ -19,10 +16,8 @@ import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 
 <body>
 <div id="grain"></div>
-<div id="cursor"></div>
-<canvas id="smoke-canvas"></canvas>
+<canvas id="fluid"></canvas>
 
-<!-- PRELOADER -->
 <div id="preloader">
 	<div class="pre-logo">STUDIO</div>
 	<div class="pre-bar-outer"><div class="pre-bar" id="pre-bar"></div></div>
@@ -119,24 +114,18 @@ import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 </footer>
 
 <script>
-	import { initMouse }             from '../scripts/mouse.js';
-	import { initSmoke }             from '../scripts/smoke.js';
-	import { initLenis }             from '../scripts/lenis.js';
-	import { initTrail }             from '../scripts/trail.js';
-	import { initPreloader,
-		initScrollAnimations }  from '../scripts/animations.js';
+	// Importamos las librerías base y el nuevo fluido
+	import { initLenis } from '../scripts/lenis.js';
+	import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
+	import { initFluid } from '../scripts/fluid.js';
 
-	// ⚠️ Orden importante:
-	// 1. initMouse PRIMERO — centraliza el estado del cursor para smoke y trail
-	// 2. Lenis — establece el loop de scroll
-	// 3. Preloader + ScrollAnimations — GSAP
-	// 4. Cursor, Smoke, Trail — leen de mouse.js, van al final
-	initMouse();
+	// Ejecución
 	initLenis();
 	initPreloader();
 	initScrollAnimations();
-	initSmoke();
-	initTrail();
+
+	// El fluido profesional se inicializa solo
+	initFluid();
 </script>
 
 </body>
