@@ -4,8 +4,8 @@ window.addEventListener('load', () => {
 });
 
 export const initFluid = () => {
-
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    let lastSplatTime = 0;
+    const SPLAT_COOLDOWN = 1000;
     const canvas = document.getElementById('fluid');
     resizeCanvas();
 
@@ -952,27 +952,37 @@ export const initFluid = () => {
         updatePointerMoveData(pointer, posX, posY, color);
     });
 
-    window.addEventListener('touchstart', e => {
-        const touches = e.targetTouches;
-        let touch = touches[0]
-        let pointer = pointers[0];
-        for (let i = 0; i < touches.length; i++) {
-            let posX = scaleByPixelRatio(touches[i].clientX);
-            let posY = scaleByPixelRatio(touches[i].clientY);
-            update();
-            updatePointerDownData(pointer, touches[i].identifier, posX, posY);
-        }
-    });
+    function updatePointerDownData (pointer, id, posX, posY) {
+        // BLOQUEO REAL: Si intentas crear fluido antes de tiempo, la función muere aquí
+        const now = Date.now();
+        if (now - lastSplatTime < SPLAT_COOLDOWN) return;
+        lastSplatTime = now;
+
+        // Aquí sigue el código original de la función...
+        pointer.id = id;
+        pointer.down = true;
+        pointer.moved = false;
+        pointer.texcoordX = posX / canvas.width;
+        pointer.texcoordY = 1.0 - posY / canvas.height;
+        pointer.prevTexcoordX = pointer.texcoordX;
+        pointer.prevTexcoordY = pointer.texcoordY;
+        pointer.deltaX = 0;
+        pointer.deltaY = 0;
+        pointer.color = generateColor();
+    }
 
     window.addEventListener('touchstart', e => {
+        // No necesitamos preventDefault aquí si queremos scroll
         const touches = e.targetTouches;
-        let pointer = pointers[0];
-        for (let i = 0; i < touches.length; i++) {
-            let posX = scaleByPixelRatio(touches[i].clientX);
-            let posY = scaleByPixelRatio(touches[i].clientY);
-            updatePointerDownData(pointer, touches[i].identifier, posX, posY);
+        const pointer = pointers[0];
+
+        // Solo procesamos el primer toque para máxima estabilidad en móvil
+        if (touches.length > 0) {
+            const posX = scaleByPixelRatio(touches[0].clientX);
+            const posY = scaleByPixelRatio(touches[0].clientY);
+            updatePointerDownData(pointer, touches[0].identifier, posX, posY);
         }
-    });
+    }, { passive: true });
 
     window.addEventListener('touchmove', e => {
         const touches = e.targetTouches;
