@@ -174,15 +174,15 @@ export function initSmoke() {
     function render(ts) {
         const t = ts * 0.001;
 
-        smoothX += (targetX - smoothX) * 0.055;
-        smoothY += (targetY - smoothY) * 0.055;
+        const currentX = targetX;
+        const currentY = targetY;
 
-        const dx  = smoothX - prevX;
-        const dy  = smoothY - prevY;
-        const vel = Math.sqrt(dx * dx + dy * dy) * 80;
-        speed    += (vel - speed) * 0.07;
-        prevX = smoothX;
-        prevY = smoothY;
+        const dx  = currentX - prevX;
+        const dy  = currentY - prevY;
+        const vel = Math.sqrt(dx * dx + dy * dy) * 120;
+        speed    += (vel - speed) * 0.1; 
+        prevX = currentX;
+        prevY = currentY;
 
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(0, 0, 0, 0);
@@ -190,7 +190,7 @@ export function initSmoke() {
 
         gl.uniform1f(uTime,  t);
         gl.uniform2f(uRes,   canvas.width, canvas.height);
-        gl.uniform2f(uMouse, smoothX, smoothY);
+        gl.uniform2f(uMouse, currentX, currentY); // Enviamos la posición real
         gl.uniform1f(uSpeed, Math.min(speed, 1.0));
 
         gl.drawArrays(gl.TRIANGLES, 0, 6);
