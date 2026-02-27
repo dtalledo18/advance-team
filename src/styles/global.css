@@ -6,8 +6,9 @@
 :root {
     --black: #080808;
     --white: #f0ede8;
-    --red:   #c0392b;
+    --red: #a4161a;
     --muted: #555;
+    --accent-strong: #e10600;
 }
 
 html { scroll-behavior: auto; }
@@ -17,8 +18,10 @@ body {
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
     font-weight: 300;
-    overflow: hidden;
     cursor: default;
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
 }
 
 #fluid {
@@ -182,7 +185,9 @@ nav a:hover::after { width: 100%; }
 }
 .service-inner:hover { padding-left: 24px; }
 .service-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 4vw, 3.5rem); color: var(--white); transition: color .3s; }
-.service-inner:hover .service-name { color: var(--red); }
+.service-inner:hover .service-name {
+    color: var(--accent-strong);
+}
 .service-num { font-size: 11px; letter-spacing: .3em; color: var(--muted); }
 
 /* CONTACT */
@@ -230,9 +235,63 @@ footer p { font-size: 11px; letter-spacing: .2em; color: var(--muted); }
 }
 
 @media (max-width: 768px) {
-    header { padding: 20px 24px; }
-    nav { display: none; }
-    .hero, .about, .services, .contact { padding-left: 24px; padding-right: 24px; }
-    .about { grid-template-columns: 1fr; gap: 40px; }
-    footer { flex-direction: column; gap: 12px; padding: 24px; }
+    header {
+        padding: 20px;
+    }
+
+    .hero {
+        position: relative; height: 80vh;
+        display: flex; flex-direction: column;
+        justify-content: flex-end;
+        padding: 0 48px 60px; z-index: 2;
+    }
+
+    .desktop-nav {
+        display: none; /* Ocultar menú en móvil si no tienes hamburguesa */
+    }
+
+    .about {
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+        padding: 80px 24px;
+    }
+
+    .about-left {
+        text-align: center;
+        width: 100%;
+    }
+
+    /* Centramos las estadísticas */
+    .about-stat {
+        display: flex;
+        flex-direction: column; /* Las ponemos en lista vertical */
+        align-items: center;    /* Centrado horizontal de los bloques */
+        justify-content: center;
+        text-align: center;     /* Centrado del texto interno */
+        gap: 40px;              /* Espacio entre cada stat */
+        margin-top: 40px;
+        width: 100%;
+    }
+
+    /* Opcional: Centrar el párrafo descriptivo si lo deseas */
+    .about-text p {
+        text-align: center;
+    }
+
+    .stat-num {
+        font-size: 3rem;
+    }
+
+    footer {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    /* Eliminar scroll lateral de elementos específicos */
+    * {
+        max-width: 100%;
+    }
 }
