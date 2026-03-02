@@ -14,7 +14,7 @@ import '../styles/global.css';
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
 
-<body>
+<body class="no-scroll">
 <div id="grain"></div>
 <canvas id="fluid"></canvas>
 
@@ -33,20 +33,25 @@ import '../styles/global.css';
 	</nav>
 </header>
 
-<section class="hero" id="hero">
-	<h1 class="hero-title">
-		<span class="line"><span>Advanced</span></span>
-		<span class="line"><span>Team</span></span>
-		<span class="line"><span>Elite</span></span>
-		<span class="line"><span>Group</span></span>
-	</h1>
-	<p class="hero-desc">
-		ATE is the parent company behind high-performance service divisions
-		delivering construction, roofing, plumbing and technical solutions
-		with elite execution standards.
-	</p>
-	<div class="scroll-hint">Explore Divisions</div>
+<div id="container-3d"></div>
+
+<section class="scene-trigger">
+	<section class="hero" id="hero">
+		<h1 class="hero-title">
+			<span class="line"><span>Advanced</span></span>
+			<span class="line"><span>Team</span></span>
+			<span class="line"><span>Elite</span></span>
+			<span class="line"><span>Group</span></span>
+		</h1>
+		<p class="hero-desc">
+			ATE is the parent company behind high-performance service divisions
+			delivering construction, roofing, plumbing and technical solutions
+			with elite execution standards.
+		</p>
+		<div class="scroll-hint">Explore Divisions</div>
+	</section>
 </section>
+
 
 <div class="marquee-section">
 	<div class="marquee-track">
@@ -162,6 +167,7 @@ import '../styles/global.css';
 	import { initLenis } from '../scripts/lenis.js';
 	import { initPreloader, initScrollAnimations } from '../scripts/animations.js';
 	import { initFluid } from '../scripts/fluid.js';
+	import { initScene3D } from '../scripts/scene3d.js'; // Importar nueva escena
 
 	// Ejecución
 	initLenis();
@@ -170,6 +176,7 @@ import '../styles/global.css';
 
 	// El fluido profesional se inicializa solo
 	initFluid();
+	initScene3D();
 </script>
 
 </body>

@@ -11,9 +11,24 @@
     --accent-strong: #e10600;
 }
 
-html { scroll-behavior: auto; }
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.no-scroll {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+html {
+    scroll-behavior: auto;
+    scrollbar-width: none;
+}
 
 body {
+    -ms-overflow-style: none;
     background: var(--black);
     color: var(--white);
     font-family: 'DM Sans', sans-serif;
@@ -22,6 +37,21 @@ body {
     width: 100%;
     overflow-x: hidden;
     position: relative;
+    scrollbar-width: none;
+}
+
+#container-3d {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10; /* Detrás del texto */
+}
+.scene-trigger {
+    position: relative;
+    height: 200vh;
+    width: 100%;
 }
 
 #fluid {

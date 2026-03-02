@@ -4,6 +4,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export function initPreloader() {
+    document.body.classList.add('no-scroll');
+
     const preloader = document.getElementById('preloader');
     const preLogo   = preloader.querySelector('.pre-logo');
     const preBar    = document.getElementById('pre-bar');
@@ -13,7 +15,9 @@ export function initPreloader() {
 
     let prog = 0;
     const tick = setInterval(() => {
-        prog += Math.random() * 14;
+        // Incrementos más agresivos (pasa de 14 a un rango de 20-40)
+        prog += Math.random() * 30 + 10;
+
         if (prog >= 100) {
             prog = 100;
             clearInterval(tick);
@@ -21,15 +25,21 @@ export function initPreloader() {
         }
         preBar.style.width    = prog + '%';
         preCount.textContent  = Math.floor(prog) + '%';
-    }, 70);
+    }, 20);
 
     function launchPage() {
+        window.scrollTo(0, 0);
+
         gsap.to(preloader, {
             yPercent: -100,
-            duration: 1.0,
-            ease: 'power4.inOut',
-            delay: 0.25,
-            onComplete: () => { preloader.style.display = 'none'; }
+            duration: 0.8,
+            ease: 'expo.inOut',
+            onComplete: () => {
+                preloader.style.display = 'none';
+
+                // 2. IMPORTANTE: Devolvemos el scroll solo cuando la animación termina
+                document.body.classList.remove('no-scroll');
+            }
         });
 
         gsap.to('.hero-title .line span', {
