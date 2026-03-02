@@ -70,7 +70,7 @@ export function initScene3D() {
     const loader = new GLTFLoader();
 
     // Cargar la Chimenea
-    loader.load('/models/warning-1.glb', (gltf) => {
+    loader.load('/models/warning-2.glb', (gltf) => {
         model = gltf.scene;
         scene.add(model);
 
