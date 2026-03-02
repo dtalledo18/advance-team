@@ -4,7 +4,7 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --black: #080808;
+    --black: #000000;
     --white: #f0ede8;
     --red: #a4161a;
     --muted: #555;
@@ -46,7 +46,9 @@ body {
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 10; /* Detrás del texto */
+    z-index: 10 !important; /* Más alto que el fluido */
+    background: transparent;
+    pointer-events: none;
 }
 .scene-trigger {
     position: relative;
@@ -60,11 +62,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Ponlo justo debajo del grano pero sobre el fondo negro */
     z-index: 1;
-    /* Esta línea es un arma de doble filo:
-       Si es 'none', el humo NO detectará el dedo en algunos navegadores.
-       Si falla, prueba quitando esta línea y pon el canvas al final del body */
     pointer-events: auto;
 }
 
@@ -149,7 +147,7 @@ nav a:hover::after { width: 100%; }
 
 header, section, footer {
     position: relative;
-    z-index: 2;
+    z-index: 100;
     /* Esto permite que el click pase al canvas si no hay link */
     pointer-events: none;
 }

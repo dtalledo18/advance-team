@@ -14,59 +14,108 @@ export function initScene3D() {
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
     // RENDERER CON SOLUCIÓN DE Z-INDEX
-    const renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true // Mantiene el fondo transparente
-    });
-
-    renderer.setClearColor(0x000000, 0); // Fondo totalmente transparente para WebGL
+    // --- 1. CONFIGURACIÓN DEL RENDERER PARA SOMBRAS ---
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setClearColor(0x000000, 0);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // SOLUCIÓN: El 3D siempre dibuja sobre el resto de la página
+    // ACTIVAR SHADOW MAPS
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap; // Sombras suaves
+
     renderer.domElement.style.position = 'relative';
     renderer.domElement.style.zIndex = '1';
-
     container.appendChild(renderer.domElement);
 
-    // Luces
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+
+    // --- 2. CONFIGURACIÓN DE LUCES PARA SOMBRAS ---
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
     scene.add(ambientLight);
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
-    spotLight.position.set(5, 10, 5);
-    scene.add(spotLight);
+
+    // Luz Principal (Cenital) - ESTA LUZ PROYECTARÁ LA SOMBRA
+    const mainLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    mainLight.position.set(0, 10, 0);
+    mainLight.castShadow = true;
+
+    // Configuración fina de la sombra
+    mainLight.shadow.mapSize.width = 2048;
+    mainLight.shadow.mapSize.height = 2048;
+    mainLight.shadow.camera.near = 0.5;
+    mainLight.shadow.camera.far = 20;
+    mainLight.shadow.camera.left = -10;
+    mainLight.shadow.camera.right = 10;
+    mainLight.shadow.camera.top = 10;
+    mainLight.shadow.camera.bottom = -10;
+    mainLight.shadow.radius = 4; // Suavizado extra
+
+    scene.add(mainLight);
+
+    // 3. Luces de Acento (Laterales)
+    const blueLight = new THREE.PointLight(0x4455ff, 5, 20); // Subimos a 5
+    blueLight.position.set(-8, 4, 2);
+    scene.add(blueLight);
+
+    const rimLight = new THREE.PointLight(0xffffff, 8, 20); // Subimos a 8
+    rimLight.position.set(8, 4, -2); // La movemos un poco hacia atrás
+    scene.add(rimLight);
+
+    // 4. Luz Frontal (Sigue a la cámara)
+    const frontLight = new THREE.PointLight(0xffffff, 0.2);
+    frontLight.position.set(0, 0, 5);
+    scene.add(frontLight);
+
 
     let model;
     const loader = new GLTFLoader();
 
     // Cargar la Chimenea
-    loader.load('/models/chimney.glb', (gltf) => {
+    loader.load('/models/warning-1.glb', (gltf) => {
         model = gltf.scene;
         scene.add(model);
 
-        // SOLUCIÓN: ESCALA AGRANDADA (Anterior: 1, 1, 1)
-        // He subido la escala para que sea un 50% más grande y cubra el humo
-        model.scale.set(1.5, 1.5, 1.5);
+        model.scale.set(2, 2, 2);
+        // Posición inicial: la casa un poco baja para que se vea imponente
+        model.position.set(0, -4.5, 0);
+        model.rotation.y = Math.PI / 2;
 
-        // Ajuste fino de posición (bajamos un poco más por el aumento de escala)
-        model.position.set(0, -2.3, 0);
+        model.traverse((node) => {
+            if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+                if(node.material) {
+                    node.material.roughness = 0.1;
+                    node.material.metalness = 0.2;
+                }
+            }
+        });
 
-        camera.position.z = 5;
+        camera.position.set(0, 0, 10); // Posición inicial estándar
 
-        // Animación de entrada al scroll (suavizada)
-        gsap.to(camera.position, {
-            z: -1.2, // Atraviesa el modelo más despacio
-            ease: "none",
+        // --- TIMELINE PARA EL ZOOM QUIRÚRGICO ---
+        const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: ".scene-trigger",
                 start: "top top",
-                // CAMBIO AQUÍ: En lugar de "bottom top", usa un porcentaje o píxeles
-                // "bottom 50%" hará que la animación termine a la mitad del scroll
-                end: "bottom 80%",
-                scrub: 1, // Un valor más bajo (ej. 0.5) lo hace sentir más reactivo
+                end: "bottom 10%",
+                scrub: 1.5, // Un poco más de suavizado para la puntería
             }
         });
+
+        tl.to(camera.position, {
+            z: -10,      // Atraviesa el modelo hacia el fondo
+            y: 6,    // BAJA en el eje Y para alinearse con el hueco
+            x: 1,
+            ease: "power2.inOut" // Movimiento más natural al principio y final
+        });
+
+        // Opcional: Enderezamos la rotación mientras entra para asegurar que pase
+        tl.to(model.rotation, {
+            y: 0,
+            duration: 0.5 // Se ejecuta en paralelo con el movimiento de cámara
+        }, 0);
     });
+
 
     // Interacción Mouse
     let mouseX = 0;
@@ -84,6 +133,8 @@ export function initScene3D() {
         renderer.render(scene, camera);
     }
     animate();
+
+
 
     // Responsive
     window.addEventListener('resize', () => {
