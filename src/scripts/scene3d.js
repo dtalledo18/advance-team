@@ -77,7 +77,6 @@ export function initScene3D() {
         model.scale.set(2, 2, 2);
         // Posición inicial: la casa un poco baja para que se vea imponente
         model.position.set(0, -4.5, 0);
-        model.rotation.y = Math.PI / 2;
 
         model.traverse((node) => {
             if (node.isMesh) {
@@ -105,15 +104,9 @@ export function initScene3D() {
         tl.to(camera.position, {
             z: -10,      // Atraviesa el modelo hacia el fondo
             y: 6,    // BAJA en el eje Y para alinearse con el hueco
-            x: 1,
-            ease: "power2.inOut" // Movimiento más natural al principio y final
+            x: 0,
+            ease: "none" // Movimiento más natural al principio y final
         });
-
-        // Opcional: Enderezamos la rotación mientras entra para asegurar que pase
-        tl.to(model.rotation, {
-            y: 0,
-            duration: 0.5 // Se ejecuta en paralelo con el movimiento de cámara
-        }, 0);
     });
 
 
