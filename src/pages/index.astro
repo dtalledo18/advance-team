@@ -179,60 +179,128 @@ import '../styles/global.css';
 	initScene3D();
 </script>
 
-<!-- En lugar del <script is:inline src="..."> anterior -->
 <script is:inline>
 	(function() {
-		const WIDGET_URL  = "https://roofing-quote-two.vercel.app/widget";
-		const ACCENT      = "#1d4ed8";
-		const BTN_LABEL   = "Free Roof Quote";
-		const POSITION    = "right";
+		const WIDGET_URL = "https://roofing-quote-two.vercel.app/widget";
+		const ACCENT     = "#1d4ed8";
+		const LABEL      = "Free Roof Quote";
 
 		const css = `
-        #rq-launcher {
+        #rq-tab {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 99999;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-            font-family: system-ui, sans-serif;
-        }
-        #rq-panel {
-            width: 420px;
-            max-width: calc(100vw - 32px);
-            height: 640px;
-            max-height: calc(100vh - 100px);
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-            transition: opacity 0.2s ease, transform 0.2s ease;
-            background: white;
-        }
-        #rq-panel.rq-hidden {
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(12px);
-        }
-        #rq-btn {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 99998;
             background: ${ACCENT};
             color: white;
-            border: none;
-            border-radius: 999px;
-            padding: 14px 22px;
-            font-size: 15px;
-            font-weight: 700;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: translateY(-50%) rotate(180deg);
+            padding: 20px 10px;
+            border-radius: 0 8px 8px 0;
+            font-family: system-ui, sans-serif;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            border: none;
+            box-shadow: -4px 0 20px rgba(0,0,0,0.2);
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            gap: 10px;
+            transition: padding 0.2s ease, box-shadow 0.2s ease;
+            user-select: none;
         }
-        #rq-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+        #rq-tab:hover {
+            padding: 20px 14px;
+            box-shadow: -6px 0 28px rgba(0,0,0,0.28);
+        }
+        #rq-tab svg {
+            transform: rotate(90deg);
+            flex-shrink: 0;
+        }
+
+        #rq-tab::before { top: 10px; }
+        #rq-tab::after  { bottom: 10px; }
+
+        /* Overlay */
+        #rq-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 99998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            backdrop-filter: blur(2px);
+        }
+        #rq-overlay.rq-open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Panel lateral */
+        #rq-panel-wrap {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 660px;
+            max-width: 100vw;
+            z-index: 99999;
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+            display: flex;
+            flex-direction: column;
+            background: white;
+            box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+        }
+        #rq-panel-wrap.rq-open {
+            transform: translateX(0);
+        }
+
+        /* Handle superior del panel */
+        #rq-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: ${ACCENT};
+            color: white;
+            font-family: system-ui, sans-serif;
+            flex-shrink: 0;
+        }
+        #rq-panel-header span {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        #rq-close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s;
+            line-height: 1;
+        }
+        #rq-close-btn:hover {
+            background: rgba(255,255,255,0.35);
+        }
+
+        #rq-iframe {
+            flex: 1;
+            border: none;
+            width: 100%;
         }
     `;
 
@@ -240,42 +308,74 @@ import '../styles/global.css';
 		style.textContent = css;
 		document.head.appendChild(style);
 
-		const launcher = document.createElement("div");
-		launcher.id = "rq-launcher";
-
-		const iframe = document.createElement("iframe");
-		iframe.id  = "rq-panel";
-		iframe.src = WIDGET_URL;
-		iframe.classList.add("rq-hidden");
-		iframe.setAttribute("title", "Roofing Quote Widget");
-
-		const btn = document.createElement("button");
-		btn.id = "rq-btn";
-		btn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+		// ── Tab (etiqueta) ──────────────────────────────────────────
+		const tab = document.createElement("button");
+		tab.id = "rq-tab";
+		tab.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
             <polyline points="9 21 9 12 15 12 15 21"/>
         </svg>
-        <span>Free Roof Quote</span>
+        ${LABEL}
     `;
 
-		launcher.appendChild(iframe);
-		launcher.appendChild(btn);
-		document.body.appendChild(launcher);
+		// ── Overlay ─────────────────────────────────────────────────
+		const overlay = document.createElement("div");
+		overlay.id = "rq-overlay";
 
+		// ── Panel ───────────────────────────────────────────────────
+		const panelWrap = document.createElement("div");
+		panelWrap.id = "rq-panel-wrap";
+
+		const panelHeader = document.createElement("div");
+		panelHeader.id = "rq-panel-header";
+		panelHeader.innerHTML = `
+        <span>🏠 ${LABEL}</span>
+        <button id="rq-close-btn" aria-label="Close">✕</button>
+    `;
+
+		const iframe = document.createElement("iframe");
+		iframe.id  = "rq-iframe";
+		iframe.src = WIDGET_URL;
+		iframe.setAttribute("title", "Roofing Quote");
+
+		panelWrap.appendChild(panelHeader);
+		panelWrap.appendChild(iframe);
+
+		document.body.appendChild(overlay);
+		document.body.appendChild(panelWrap);
+		document.body.appendChild(tab);
+
+		// ── Lógica ──────────────────────────────────────────────────
 		let isOpen = false;
-		btn.addEventListener("click", () => {
-			isOpen = !isOpen;
-			iframe.classList.toggle("rq-hidden", !isOpen);
-			btn.querySelector("span").textContent = isOpen ? "Close" : BTN_LABEL;
-		});
 
-		document.addEventListener("click", (e) => {
-			if (isOpen && !launcher.contains(e.target)) {
-				isOpen = false;
-				iframe.classList.add("rq-hidden");
-				btn.querySelector("span").textContent = BTN_LABEL;
-			}
+		function open() {
+			isOpen = true;
+			panelWrap.classList.add("rq-open");
+			overlay.classList.add("rq-open");
+			tab.style.opacity = "0";
+			tab.style.pointerEvents = "none";
+		}
+
+		function close() {
+			isOpen = false;
+			panelWrap.classList.remove("rq-open");
+			overlay.classList.remove("rq-open");
+			tab.style.opacity = "1";
+			tab.style.pointerEvents = "auto";
+		}
+
+		tab.addEventListener("click", open);
+		overlay.addEventListener("click", close);
+		document.getElementById("rq-panel-header")
+			.querySelector("#rq-close-btn")
+			.addEventListener("click", close);
+
+		// Cerrar con Escape
+		document.addEventListener("keydown", (e) => {
+			if (e.key === "Escape" && isOpen) close();
 		});
 	})();
 </script>
