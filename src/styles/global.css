@@ -85,7 +85,7 @@ body {
 
 /* HEADER — Liquid Glass centrado tipo Apple */
 header {
-    position: fixed;
+    position: fixed;           /* ← este ya lo tienes arriba, no se pisa */
     top: 16px; left: 50%; transform: translateX(-50%);
     z-index: 1000;
     display: flex;
@@ -100,8 +100,9 @@ header {
     box-shadow: 0 4px 24px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.5);
     pointer-events: auto;
     white-space: nowrap;
-    /* quitar mix-blend-mode del original */
+    width: fit-content;        /* ← ESTO es lo que faltaba */
 }
+
 .logo {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1rem;
@@ -122,11 +123,12 @@ nav a:hover { background: rgba(255,255,255,0.45); }
 /* quitar el ::after del original porque ya no necesitamos la línea */
 nav a::after { display: none; }
 
-header, section, footer {
+section, footer {
     position: relative;
     z-index: 100;
     pointer-events: none;
 }
+
 a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 
 /* HERO */
