@@ -85,7 +85,7 @@ export function initScene3D() {
     };
     window.__setHousePoint = () => {};
 
-    loader.load('/models/house.glb', (gltf) => {
+    loader.load('/models/v16.glb', (gltf) => {
         model = gltf.scene;
 
         model.scale.set(0.5, 0.5, 0.5);

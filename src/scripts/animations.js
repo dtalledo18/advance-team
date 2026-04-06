@@ -24,7 +24,7 @@ export function initPreloader() {
             launchPage();
         }
         preBar.style.width    = prog + '%';
-        preCount.textContent  = Math.floor(prog) + '%';
+        if (preCount) preCount.textContent = Math.floor(prog) + '%';
     }, 20);
 
     function launchPage() {
