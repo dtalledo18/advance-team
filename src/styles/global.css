@@ -170,7 +170,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 140px 48px;
+    padding: 140px 148px;
     z-index: 10;
     pointer-events: none;
 }
@@ -362,7 +362,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 
 /* ABOUT */
 .about {
-    position: relative; z-index: 2; padding: 140px 48px;
+    position: relative; z-index: 2; padding: 140px 148px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
     background: rgba(214,214,221,0.95);
     align-items: stretch; /* cambia el "start" que tenías */
@@ -378,7 +378,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 .about-text { padding-top: 40px; max-width: 400px}
 .about-text p { font-size: 16px; line-height: 1.9; color: var(--black); margin-bottom: 24px; }
 .about-text strong { color: var(--black); font-weight: 700; }
-.about-stat { display: flex; gap: 60px; margin-top: 48px; }
+.about-stat { display: flex; gap: 60px; margin-top: 148px; }
 .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; line-height: 1; color: var(--accent); }
 .stat-label { font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 .about-right {
@@ -442,7 +442,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 }
 
 /* SERVICES */
-.services { position: relative; z-index: 2; padding: 60px 48px 140px; border-top: 1px solid var(--border); background: rgba(214,214,221,0.95); }
+.services { position: relative; z-index: 2; padding: 60px 148px 140px; border-top: 1px solid var(--border); background: rgba(214,214,221,0.95); }
 .services-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 80px; }
 .section-label { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--muted); }
 .services-list { list-style: none; border-top: 1px solid var(--border); }
@@ -460,7 +460,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 /* DIVISIONS */
 .divisions {
     position: relative; z-index: 2;
-    padding: 190px 64px 80px;
+    padding: 190px 148px 80px;
     background: linear-gradient(to bottom, #0a0a0a 0%, #1a1a1a 100%);
     border-radius: 80px 80px 0 0;
     margin-top: -24px;
@@ -515,7 +515,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 /* CONTACT */
 .contact {
     position: relative; z-index: 2;
-    padding: 190px 48px;
+    padding: 190px 148px;
     text-align: center;
     background: linear-gradient(to bottom, #1a1a1a 0%, #111 100%);
 }
