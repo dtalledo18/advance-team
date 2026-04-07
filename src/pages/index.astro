@@ -8,6 +8,8 @@ import '../styles/global.css';
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Advanced Team ®</title>
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<link rel="alternate icon" type="image/png" href="/favicon.png" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -25,9 +27,22 @@ import '../styles/global.css';
 
 <!-- HEADER: Liquid Glass -->
 <header>
-	<a class="logo" href="#">Advanced Team ®</a>
+	<a class="logo" href="/">
+		<svg width="34" height="24" viewBox="0 0 46 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<style>
+				path { fill: black; transition: fill 0.3s ease; }
+				@media (prefers-color-scheme: dark) { path { fill: black; } }
+			</style>
+			<path d="M21.0614 17.474H16.7923C16.1724 17.474 15.6699 17.9765 15.6699 18.5964V22.8655C15.6699 23.4854 16.1724 23.9879 16.7923 23.9879H21.0614C21.6813 23.9879 22.1839 23.4854 22.1839 22.8655V18.5964C22.1839 17.9765 21.0614 17.474 21.0614 17.474Z"/>
+			<path d="M28.9472 17.4739H24.6781C24.0582 17.4739 23.5557 17.9765 23.5557 18.5964V22.8655C23.5557 23.4854 24.0582 23.9879 24.6781 23.9879H28.9472C29.5671 23.9879 30.0696 23.4854 30.0696 22.8655V18.5964C30.0696 17.9765 29.5671 17.4739 28.9472 17.4739Z"/>
+			<path d="M21.0614 24.8461H16.7923C16.1724 24.8461 15.6699 25.3486 15.6699 25.9685V30.2376C15.6699 30.8575 16.1724 31.36 16.7923 31.36H21.0614C21.6813 31.36 22.1839 30.8575 22.1839 30.2376V25.9685C22.1839 25.3486 21.6813 24.8461 21.0614 24.8461Z"/>
+			<path d="M28.9472 24.8461H24.6781C24.0582 24.8461 23.5557 25.3486 23.5557 25.9685V30.2376C23.5557 30.8575 24.0582 31.36 24.6781 31.36H28.9472C29.5671 31.36 30.0696 30.8575 30.0696 30.2376V25.9685C30.0696 25.3486 29.5671 24.8461 28.9472 24.8461Z"/>
+			<path d="M2.23758 7.19031C1.09818 9.47152 0.327273 11.9709 0 14.6061L22.817 8.10909L45.7552 14.7055C45.4352 12.0388 44.6643 9.51273 43.5127 7.20728L22.9818 0L2.23758 7.19031Z"/>
+		</svg>
+	</a>
 	<nav class="desktop-nav">
-		<a href="#about">Agency</a>
+		<a href="#">Home</a>
+		<a href="#about">About us</a>
 		<a href="#services">Services</a>
 		<a href="#contact">Contact</a>
 	</nav>
@@ -39,30 +54,44 @@ import '../styles/global.css';
 
 		<div class="hero-content">
 			<h1 class="hero-title">
-				<span class="line"><span>Where</span></span>
-				<span class="line"><span>Protection</span></span>
-				<span class="line accent"><span>Meets</span></span>
-				<span class="line accent"><span>Performance</span></span>
+				<span class="line"><span>WE'VE</span></span>
+				<span class="line"><span>GOT YOU</span></span>
+				<span class="line accent"><span>COVERED</span></span>
 			</h1>
 			<p class="hero-desc">
-				ATE is the parent company behind high-performance service divisions
-				delivering construction, roofing, plumbing and technical solutions
-				with elite execution standards.
+				From detailed inspections to full roof restoration, we handle every step
+				with precision—working directly with your insurance to deliver fast,
+				reliable, and <strong>long-term protection.</strong>
 			</p>
-			<a href="#contact" class="hero-cta">Contact us</a>
-		</div>
 
-		<!-- 3 puntos: techo / puerta / cenital -->
-		<div class="house-dots">
-			<button class="house-dot" data-view="roof"   data-idx="0" title="Roof">
-				<span class="dot-ring"></span>
-			</button>
-			<button class="house-dot" data-view="door"   data-idx="1" title="Door">
-				<span class="dot-ring"></span>
-			</button>
-			<button class="house-dot" data-view="aerial" data-idx="2" title="Aerial">
-				<span class="dot-ring"></span>
-			</button>
+			<!-- Botón FREE INSPECTION con gradiente -->
+			<a href="#contact" class="hero-cta">Free Inspection</a>
+
+			<!-- Contenedor de dots con label y nombres -->
+			<div class="house-dots-container">
+				<p class="house-dots-label">Explore what <em>we do best</em></p>
+				<div class="house-dots">
+					<div class="house-dot-wrap">
+						<button class="house-dot active" data-view="roof" data-idx="0" title="Roof">
+							<span class="dot-ring"></span>
+						</button>
+						<span class="dot-label">Roofing</span>
+					</div>
+					<div class="house-dot-wrap">
+						<button class="house-dot" data-view="door" data-idx="1" title="Door">
+							<span class="dot-ring"></span>
+						</button>
+						<span class="dot-label">Plumbing</span>
+					</div>
+					<div class="house-dot-wrap">
+						<button class="house-dot" data-view="aerial" data-idx="2" title="Aerial">
+							<span class="dot-ring"></span>
+						</button>
+						<span class="dot-label">Construction</span>
+					</div>
+				</div>
+			</div>
+
 		</div>
 
 		<div class="scroll-hint">Explore Divisions</div>
@@ -96,28 +125,27 @@ import '../styles/global.css';
 
 <section class="about" id="about">
 	<div class="about-left">
-		<p class="about-label">About AT</p>
+		<p class="about-label">About us</p>
 		<h2 class="about-heading" id="about-heading">
-			<span class="word"><span>One</span></span>
-			<span class="word"><span> parent</span></span><br />
+			<span class="word"><span>One Parent</span></span><br />
 			<span class="word"><span>company.</span></span><br />
-			<span class="word"><span>Multiple</span></span>
-			<span class="word"><span> elite</span></span><br />
-			<span class="word"><span>divisions.</span></span>
+			<span class="word accent"><span>Multiple</span></span>
+			<span class="word accent"><span> elite</span></span><br />
+			<span class="word accent"><span>divisions.</span></span>
 		</h2>
-	</div>
-	<div class="about-text">
-		<p>Advanced Team operates as a holding and strategic management group overseeing specialized service brands across the construction industry.</p>
-		<p>Each division operates independently in the field while maintaining unified standards of performance, safety and operational excellence.</p>
-		<div class="about-stat">
-			<div class="stat-num" data-count="5">0</div>
-			<div class="stat-label">Divisions</div>
-			<div class="stat-num" data-count="250">0</div>
-			<div class="stat-label">Projects</div>
-			<div class="stat-num" data-count="12">0</div>
-			<div class="stat-label">Years</div>
+		<div class="about-text">
+			<p>From multiple counties to entire regions, our presence reflects where we’ve delivered results—bringing precision, reliability, and <strong>proven roofing solutions to every project we take on.</strong></p>
+			<div class="about-stat">
+				<div class="stat-num" data-count="5">0</div>
+				<div class="stat-label">Divisions</div>
+				<div class="stat-num" data-count="250">0</div>
+				<div class="stat-label">Projects</div>
+				<div class="stat-num" data-count="12">0</div>
+				<div class="stat-label">Years</div>
+			</div>
 		</div>
 	</div>
+
 </section>
 
 <section class="services" id="services">
@@ -204,32 +232,47 @@ import '../styles/global.css';
 
 <script is:inline>
 	(function() {
-		const WIDGET_URL = "https://roofing-quote-two.vercel.app/widget";
+		const WIDGET_URL = "https://roofing-quote-two.vercel.app/widget?accent=ffa501&text=000000";
 		const ACCENT     = "#ffa501";
 		const LABEL      = "Free Roof Quote";
 
 		const css = `
         #rq-tab {
-            position: fixed; right: 0; top: 50%;
-            transform: translateY(-50%) rotate(180deg);
-            z-index: 99998; background: ${ACCENT}; color: #000;
+            position: fixed; 
+            right: 0; 
+            top: 50%;
+            /* Usamos translateX(0) como base para la animación */
+            transform: translateY(-50%) rotate(180deg) translateX(0);
+            z-index: 1000000; 
+            background: ${ACCENT}; color: #000;
             writing-mode: vertical-rl; text-orientation: mixed;
-            padding: 20px 10px; border-radius: 0 8px 8px 0;
-            font-family: system-ui, sans-serif; font-size: 13px;
+            padding: 20px 10px; border-radius: 0 20px 20px 0;
+            font-family: system-ui, sans-serif; font-size: 20px;
             font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
             cursor: pointer; border: none;
             box-shadow: -4px 0 20px rgba(0,0,0,0.2);
             display: flex; align-items: center; gap: 10px;
-            transition: padding 0.2s ease, box-shadow 0.2s ease; user-select: none;
+            /* Usamos exactamente la misma transición que el panel */
+            transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), 
+				background 0.3s ease, 
+				box-shadow 0.3s ease,
+				padding 0.25s ease;
+    		will-change: transform;
+            user-select: none;
         }
-        #rq-tab:hover { padding: 20px 14px; box-shadow: -6px 0 28px rgba(0,0,0,0.28); }
-        #rq-tab svg { transform: rotate(90deg); flex-shrink: 0; }
-        #rq-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
-            z-index: 99998; opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease; backdrop-filter: blur(2px);
+        
+        #rq-tab.rq-open {
+            /* En lugar de cambiar 'right', lo empujamos hacia la izquierda con transform */
+            /* El valor es positivo porque el elemento está rotado 180deg */
+            transform: translateY(-50%) rotate(180deg) translateX(660px);
         }
-        #rq-overlay.rq-open { opacity: 1; pointer-events: all; }
+
+        @media (max-width: 660px) {
+            #rq-tab.rq-open { 
+                transform: translateY(-50%) rotate(180deg) translateX(calc(100vw - 40px)); 
+            }
+        }
+
         #rq-panel-wrap {
             position: fixed; top: 0; right: 0; height: 100%;
             width: 660px; max-width: 100vw; z-index: 99999;
@@ -237,7 +280,19 @@ import '../styles/global.css';
             transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
             display: flex; flex-direction: column;
             background: white; box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+            will-change: transform;
         }
+
+        #rq-tab:hover { padding: 20px 14px; box-shadow: -6px 0 28px rgba(0,0,0,0.28); }
+        #rq-tab svg { transform: rotate(90deg); flex-shrink: 0; }
+        
+        #rq-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+            z-index: 99998; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease; backdrop-filter: blur(2px);
+        }
+        #rq-overlay.rq-open { opacity: 1; pointer-events: all; }
+       
         #rq-panel-wrap.rq-open { transform: translateX(0); }
         #rq-panel-header {
             display: flex; align-items: center; justify-content: space-between;
@@ -277,10 +332,20 @@ import '../styles/global.css';
 		document.body.appendChild(tab);
 
 		let isOpen = false;
-		function open()  { isOpen=true;  panelWrap.classList.add("rq-open");    overlay.classList.add("rq-open");    tab.style.opacity="0"; tab.style.pointerEvents="none"; }
-		function close() { isOpen=false; panelWrap.classList.remove("rq-open"); overlay.classList.remove("rq-open"); tab.style.opacity="1"; tab.style.pointerEvents="auto"; }
+		function open()  {
+			isOpen=true;
+			panelWrap.classList.add("rq-open");
+			overlay.classList.add("rq-open");
+			tab.classList.add("rq-open"); // Añadimos clase al tab para moverlo
+		}
+		function close() {
+			isOpen=false;
+			panelWrap.classList.remove("rq-open");
+			overlay.classList.remove("rq-open");
+			tab.classList.remove("rq-open"); // Quitamos clase para que regrese al borde derecho
+		}
 
-		tab.addEventListener("click", open);
+		tab.addEventListener("click", () => { if(!isOpen) open(); else close(); });
 		overlay.addEventListener("click", close);
 		document.getElementById("rq-panel-header").querySelector("#rq-close-btn").addEventListener("click", close);
 		document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen) close(); });

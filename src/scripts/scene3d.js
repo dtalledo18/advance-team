@@ -25,7 +25,7 @@ export function initScene3D() {
     container.appendChild(renderer.domElement);
 
     // Luces
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
     scene.add(ambientLight);
 
     const mainLight = new THREE.DirectionalLight(0xffffff, 2.0);
@@ -64,9 +64,9 @@ export function initScene3D() {
     // Todas las cámaras apuntan al pivot (derecha) — la casa siempre queda ahí
     const VIEWS = {
         default: { cam: { x: -4,  y: 1.5, z: 8 }, pivotY: 0   },
-        roof:    { cam: { x: -4,  y: 5,   z: 5 }, pivotY: 1.5 },
-        door:    { cam: { x: -4,  y: 0,   z: 5 }, pivotY: -1  },
-        aerial:  { cam: { x: -4,  y: 9,   z: 4 }, pivotY: 0   },
+        roof:    { cam: { x: -4,  y: 2,   z: 5 }, pivotY: 1.5 },
+        door:    { cam: { x: -2.5,  y: -1.2,   z: 4 }, pivotY: -1  },
+        aerial:  { cam: { x: -4.3,  y: 9,   z: 4 }, pivotY: 0   },
     };
 
     let currentView = 'default';
@@ -93,6 +93,7 @@ export function initScene3D() {
         // ── Casa centrada en el pivot (derecha de la pantalla) ──
         // El pivot ya está en X=2, así que el modelo va en 0,0,0 local
         model.position.set(0, -2, 0);
+        model.rotation.y = 0.00;
 
         model.traverse((node) => {
             if (node.isMesh) {
@@ -119,8 +120,8 @@ export function initScene3D() {
 
         if (model && currentView === 'default') {
             // Rotación Y alrededor del eje del modelo
-            const targetRot = mouseX * 0.3;
-            model.rotation.y += (targetRot - model.rotation.y) * 0.05;
+            const targetRot = 0.00 + (mouseX * 0.3);
+            model.rotation.y += (targetRot - model.rotation.y) * 0.02;
         }
 
         // La cámara siempre apunta al pivot — esto es lo que mantiene la casa a la derecha
