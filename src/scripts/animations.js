@@ -16,7 +16,7 @@ export function initPreloader() {
     let prog = 0;
     const tick = setInterval(() => {
         // Incrementos más agresivos (pasa de 14 a un rango de 20-40)
-        prog += Math.random() * 30 + 10;
+        prog += Math.random() * 1 + 0.5; // Incrementos mucho más pequeños
 
         if (prog >= 100) {
             prog = 100;
@@ -25,7 +25,7 @@ export function initPreloader() {
         }
         preBar.style.width    = prog + '%';
         if (preCount) preCount.textContent = Math.floor(prog) + '%';
-    }, 20);
+    }, 30);
 
     function launchPage() {
         window.scrollTo(0, 0);
