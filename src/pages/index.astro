@@ -136,16 +136,30 @@ import '../styles/global.css';
 		<div class="about-text">
 			<p>From multiple counties to entire regions, our presence reflects where we’ve delivered results—bringing precision, reliability, and <strong>proven roofing solutions to every project we take on.</strong></p>
 			<div class="about-stat">
-				<div class="stat-num" data-count="5">0</div>
-				<div class="stat-label">Divisions</div>
-				<div class="stat-num" data-count="250">0</div>
-				<div class="stat-label">Projects</div>
-				<div class="stat-num" data-count="12">0</div>
-				<div class="stat-label">Years</div>
+				<div>
+					<div class="stat-num" data-count="5">15+</div>
+					<div class="stat-label">Years of Experience</div>
+				</div>
+				<div>
+					<div class="stat-num" data-count="250">100%</div>
+					<div class="stat-label">Happy Customers</div>
+				</div>
+				<div>
+					<div class="stat-num" data-count="12">350+</div>
+					<div class="stat-label">Projects Completed</div>
+				</div>
 			</div>
 		</div>
 	</div>
 
+	<div class="about-right">
+		<div class="about-img-stack">
+			<img class="img-blueprint" src="/images/plano-tecnico.png" alt="Blueprint" />
+			<div class="img-house-wrap">
+				<img class="img-house" src="/images/casa-render.png" alt="House" />
+			</div>
+		</div>
+	</div>
 </section>
 
 <section class="services" id="services">
@@ -153,16 +167,22 @@ import '../styles/global.css';
 		<span class="section-label">Our Structure</span>
 		<span class="section-label">(05 divisions)</span>
 	</div>
-	<ul class="services-list">
-		<li class="service-item"><div class="service-inner"><span class="service-name">Advanced Construction Team</span><span class="service-num">01</span></div></li>
-		<li class="service-item"><div class="service-inner"><span class="service-name">Advanced Roofing</span><span class="service-num">02</span></div></li>
-		<li class="service-item"><div class="service-inner"><span class="service-name">Advanced Plumbing</span><span class="service-num">03</span></div></li>
-		<li class="service-item"><div class="service-inner"><span class="service-name">Advanced Electrical</span><span class="service-num">04</span></div></li>
-		<li class="service-item"><div class="service-inner"><span class="service-name">Advanced Project Management</span><span class="service-num">05</span></div></li>
+</section>
+
+<section class="divisions" id="contact">
+	<div class="divisions-header">
+		<span class="divisions-label">About us</span>
+		<span class="divisions-label accent">Our divisions</span>
+	</div>
+	<ul class="divisions-list">
+		<li class="division-item"><span class="division-name">Commercial</span><span class="division-num">01</span></li>
+		<li class="division-item"><span class="division-name">Insurance</span><span class="division-num">02</span></li>
+		<li class="division-item"><span class="division-name">Shingle</span><span class="division-num">03</span></li>
+		<li class="division-item"><span class="division-name">Roofing</span><span class="division-num">04</span></li>
 	</ul>
 </section>
 
-<section class="contact" id="contact">
+<section class="contact">
 	<p class="contact-pre">Work With The Advanced</p>
 	<h2 class="contact-heading">
 		<span class="line"><span>Partner</span></span>
@@ -172,9 +192,18 @@ import '../styles/global.css';
 </section>
 
 <footer>
-	<p>© 2025 Advanced Team ®</p>
-	<p>Holding & Strategic Management Group</p>
-	<p>United States</p>
+	<div class="footer-logo">
+		<img src="/images/advanced_logo.png" alt="Advanced Team" />
+	</div>
+	<div class="footer-info">
+		<a href="tel:8156662286">(815) 666 2286</a>
+		<a href="#">975 Rand Rd,</a>
+		<a href="#">Des Plaines, IL 60016</a>
+		<a href="mailto:advancedplumbingteam@gmail.com">advancedplumbingteam@gmail.com</a>
+	</div>
+	<div class="footer-copy">
+		<p>© Copyright 2025 Advanced Plumbing All Rights Reserved</p>
+	</div>
 </footer>
 
 <script>
@@ -203,6 +232,32 @@ import '../styles/global.css';
 			lenis.scrollTo(target, { duration: 1.8, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
 		});
 	});
+
+	const aboutStack = document.querySelector('.about-img-stack');
+
+	const stackObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (entry.isIntersecting) {
+				const houseWrap = entry.target.querySelector('.img-house-wrap') as HTMLElement;
+				// 1 segundo de delay → barrido de abajo hacia arriba (house aparece)
+				setTimeout(() => {
+					houseWrap.style.transition = 'clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1)';
+					houseWrap.style.clipPath = 'inset(0% 0 0 0)';
+
+					// Después de que aparece → espera y desvanece de abajo hacia arriba (house desaparece)
+					setTimeout(() => {
+						houseWrap.style.transition = 'clip-path 1.2s cubic-bezier(0.76, 0, 0.24, 1)';
+						houseWrap.style.clipPath = 'inset(0% 0 100% 0)';
+					}, 2400);
+
+				}, 1000);
+
+				stackObserver.unobserve(entry.target);
+			}
+		});
+	}, { threshold: 0.4 });
+
+	if (aboutStack) stackObserver.observe(aboutStack);
 
 	// Puntos de la casa
 	declare global {
