@@ -4,6 +4,10 @@ import illinoisRaw from '../images/usa-il.svg?raw';
 ---
 
 <section class="outer-container">
+    <div class="services-header">
+        <span class="section-label">Our Structure</span>
+        <span class="section-label">(05 divisions)</span>
+    </div>
     <div class="map-card">
         <div id="details-box"></div>
 
@@ -35,14 +39,17 @@ import illinoisRaw from '../images/usa-il.svg?raw';
 
 <style is:global>
     .outer-container {
-        padding: 0px 20px;
+        padding: 0 20px;
         background: rgba(214,214,221,0.95);
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         font-family: 'Inter', sans-serif;
     }
+    .services-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 80px; }
+    .section-label { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--muted); }
 
     .map-card {
         background-color: #e2e2e4;
