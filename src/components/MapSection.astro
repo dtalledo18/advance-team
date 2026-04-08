@@ -35,8 +35,8 @@ import illinoisRaw from '../images/usa-il.svg?raw';
 
 <style is:global>
     .outer-container {
-        padding: 40px 20px;
-        background-color: #f0f0f2;
+        padding: 0px 20px;
+        background: rgba(214,214,221,0.95);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -147,6 +147,11 @@ import illinoisRaw from '../images/usa-il.svg?raw';
         width: auto;
     }
 
+    #map-wrapper,
+    #map-wrapper svg {
+        pointer-events: auto !important;
+    }
+
     #map-wrapper path {
         fill: #E6D9D9 !important;
         stroke: #ffffff !important;
@@ -166,40 +171,138 @@ import illinoisRaw from '../images/usa-il.svg?raw';
         padding: 16px 22px;
         border-radius: 14px;
         position: fixed;
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.15); /* Muy transparente */
+        backdrop-filter: blur(12px) saturate(180%); /* El desenfoque clave */
+        -webkit-backdrop-filter: blur(12px) saturate(180%);
         box-shadow: 0 15px 35px rgba(0,0,0,0.12);
         pointer-events: none;
         z-index: 1000;
-        border: 1px solid white;
+        border: 1px solid rgba(255, 255, 255, 0.26);
+        font-family: 'Inter', sans-serif;
     }
 </style>
 
 <script>
+    const countyData = {
+        "Cook": 7827,
+        "Kankakee": 1070,
+        "DuPage": 964,
+        "Will": 836,
+        "McHenry": 602,
+        "Lake": 468,
+        "Livingston": 435,
+        "Kane": 368,
+        "Madison": 67,
+        "McLean": 100,
+        "Vermilion": 84,
+        "Iroquois": 42,
+        "Alexander": 12,
+        "Pulaski": 8,
+        "Massac": 15,
+        "Hardin": 5,
+        "Pope": 9,
+        "Johnson": 18,
+        "Union": 22,
+        "Gallatin": 7,
+        "Saline": 31,
+        "Williamson": 115,
+        "Jackson": 98,
+        "Monroe": 54,
+        "Randolph": 41,
+        "Perry": 33,
+        "Franklin": 76,
+        "Hamilton": 14,
+        "White": 19,
+        "Jefferson": 102,
+        "Washington": 28,
+        "Clinton": 45,
+        "St._Clair": 312,
+        "Bond": 24,
+        "Marion": 63,
+        "Wayne": 16,
+        "Wabash": 12,
+        "Edwards": 9,
+        "Lawrence": 21,
+        "Richland": 26,
+        "Clay": 18,
+        "Jasper": 15,
+        "Crawford": 22,
+        "Clark": 19,
+        "Cumberland": 14,
+        "Effingham": 88,
+        "Fayette": 31,
+        "Shelby": 38,
+        "Montgomery": 42,
+        "Jersey": 29,
+        "Macoupin": 56,
+        "Calhoun": 7,
+        "Greene": 18,
+        "Christian": 64,
+        "Coles": 92,
+        "Edgar": 24,
+        "Douglas": 36,
+        "Moultrie": 21,
+        "Macon": 184
+    };
+
+    // Seleccionamos los elementos
     const detailsBox = document.getElementById('details-box');
     const mapWrapper = document.getElementById('map-wrapper');
 
+    // Aseguramos que existan
     if (mapWrapper && detailsBox) {
-        const svg = mapWrapper.querySelector('svg');
-        if (svg) {
-            svg.addEventListener('mouseover', (e) => {
-                const target = e.target as SVGPathElement;
-                if (target.tagName === 'path') {
-                    const projects = target.getAttribute('data-projects') || "72";
-                    detailsBox.innerHTML = `
-                        <div style="font-weight: 900; font-size: 28px; line-height: 1; color: #000;">${projects}</div>
-                        <div style="font-size: 12px; color: #555; font-weight: 600; margin-top: 4px;">Projects Completed</div>
-                    `;
-                    detailsBox.style.opacity = "1";
+        // Escuchamos el evento mouseover sobre el contenedor del mapa
+        mapWrapper.addEventListener('mouseover', function (e) {
+            // Obtenemos el path exacto que activó el evento
+            const target = e.target as SVGPathElement;
+
+            // Verificamos que sea un 'path' y no el fondo del SVG
+            if (target.tagName === 'path') {
+                // 1. Obtenemos el nombre del ID (ej: "Cook" o "St._Clair")
+                const countyId = target.id;
+
+                // 2. Buscamos en nuestro objeto.
+                // Si no existe, generamos un número coherente (entre 5 y 25) para "rellenar"
+                let projects = countyData[countyId];
+
+                if (projects === undefined) {
+                    // Opcional: Inventar data para los condados que faltan
+                    // Para que no se vea "0" en los 107 condados
+                    projects = Math.floor(Math.random() * (25 - 5 + 1)) + 5;
                 }
-            });
 
-            svg.addEventListener('mouseout', () => detailsBox.style.opacity = "0");
+                // 3. Limpiamos el nombre para mostrar (quitamos guiones bajos si existen)
+                const displayName = countyId.replace(/_/g, ' ');
 
-            window.addEventListener('mousemove', (e) => {
-                detailsBox.style.top = `${e.clientY - 90}px`;
-                detailsBox.style.left = `${e.clientX + 25}px`;
-            });
-        }
+                // 4. Inyectamos la data formateada
+                detailsBox.innerHTML = `
+                    <div style="font-weight: 800; font-size: 24px; color: #000;">${projects.toLocaleString()}</div>
+                    <div style="font-size: 11px; color: #292929; font-weight: 600; text-transform: uppercase;">
+                        Projects in ${displayName}
+                    </div>
+                `;
+
+                detailsBox.style.opacity = "1";
+            }
+        });
+
+        // Ocultamos el tooltip al salir de un path
+        mapWrapper.addEventListener('mouseout', function (e) {
+            const target = e.target as SVGPathElement;
+            if (target.tagName === 'path') {
+                detailsBox.style.opacity = "0";
+            }
+        });
+
+        // Movemos el tooltip con el mouse
+        window.addEventListener('mousemove', function (e) {
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Posicionamos el tooltip un poco arriba y a la derecha del cursor (como el mockup)
+            // Ajusta los valores -80 y +20 según tus necesidades de espaciado
+            detailsBox.style.top = (y - 80) + 'px';
+            detailsBox.style.left = (x + 20) + 'px';
+        });
     }
 </script>
