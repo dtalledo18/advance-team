@@ -16,7 +16,7 @@ export function initPreloader() {
     let prog = 0;
     const tick = setInterval(() => {
         // Incrementos más agresivos (pasa de 14 a un rango de 20-40)
-        prog += Math.random() * 1 + 0.5; // Incrementos mucho más pequeños
+        prog += Math.random() + 0.9; // Incrementos mucho más pequeños
 
         if (prog >= 100) {
             prog = 100;
@@ -73,7 +73,9 @@ export function initScrollAnimations() {
 
     // Contadores animados
     document.querySelectorAll('.stat-num').forEach(el => {
-        const target  = parseInt(el.dataset.count);
+        const target = parseInt(el.dataset.count);
+        // Detectamos si el elemento originalmente tiene un %
+        const isPercent = el.textContent.includes('%');
         let triggered = false;
 
         ScrollTrigger.create({
@@ -82,12 +84,15 @@ export function initScrollAnimations() {
             onEnter: () => {
                 if (triggered) return;
                 triggered = true;
+
                 gsap.to({ val: 0 }, {
                     val: target,
                     duration: 1.8,
                     ease: 'power2.out',
                     onUpdate: function () {
-                        el.textContent = Math.round(this.targets()[0].val) + '+';
+                        const currentVal = Math.round(this.targets()[0].val);
+                        // Si es porcentaje, añade %, si no, añade el +
+                        el.textContent = currentVal + (isPercent ? '%' : '+');
                     }
                 });
             }

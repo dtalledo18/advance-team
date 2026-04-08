@@ -1,6 +1,7 @@
 ---
 // src/pages/index.astro
 import '../styles/global.css';
+import MapSection from '../components/MapSection.astro';
 ---
 
 <html lang="es">
@@ -137,15 +138,15 @@ import '../styles/global.css';
 			<p>From multiple counties to entire regions, our presence reflects where we’ve delivered results—bringing precision, reliability, and <strong>proven roofing solutions to every project we take on.</strong></p>
 			<div class="about-stat">
 				<div>
-					<div class="stat-num" data-count="5">15+</div>
+					<div class="stat-num" data-count="15">15+</div>
 					<div class="stat-label">Years of Experience</div>
 				</div>
 				<div>
-					<div class="stat-num" data-count="250">100%</div>
+					<div class="stat-num" data-count="100">100%</div>
 					<div class="stat-label">Happy Customers</div>
 				</div>
 				<div>
-					<div class="stat-num" data-count="12">350+</div>
+					<div class="stat-num" data-count="350">350+</div>
 					<div class="stat-label">Projects Completed</div>
 				</div>
 			</div>
@@ -168,6 +169,8 @@ import '../styles/global.css';
 		<span class="section-label">(05 divisions)</span>
 	</div>
 </section>
+
+<MapSection />
 
 <section class="divisions" id="contact">
 	<div class="divisions-header">
@@ -302,7 +305,7 @@ import '../styles/global.css';
             background: ${ACCENT}; color: #000;
             writing-mode: vertical-rl; text-orientation: mixed;
             padding: 20px 10px; border-radius: 0 20px 20px 0;
-            font-family: system-ui, sans-serif; font-size: 20px;
+            font-family: system-ui, sans-serif; font-size: 16px;
             font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
             cursor: pointer; border: none;
             box-shadow: -4px 0 20px rgba(0,0,0,0.2);
