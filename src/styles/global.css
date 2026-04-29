@@ -28,16 +28,27 @@
 html { scroll-behavior: auto; scrollbar-width: none; }
 
 body {
+    margin: 0;
+    min-height: 100vh;
     -ms-overflow-style: none;
-    background: #d6d6dd;
-    color: var(--black);
+    scrollbar-width: none;
     font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
+    color: var(--black);
+
+    /* Reemplazo por tu textura real */
+    background-image: url("/images/background.webp"); /* Asegúrate de que la ruta sea correcta según tu carpeta public */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+
+    /* Color de respaldo por si la imagen tarda en cargar */
+    background-color: rgba(216, 216, 223, 0.6);
+
     cursor: default;
     width: 100%;
     overflow-x: hidden;
     position: relative;
-    scrollbar-width: none;
 }
 
 
@@ -362,7 +373,7 @@ a, button, .service-inner, .contact-cta, .house-dots { pointer-events: auto; }
 
 /* ABOUT */
 .about {
-    position: relative; z-index: 2; padding: 140px 148px;
+    position: relative; z-index: 2; padding: 140px 148px 50px 148px;
     display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
     background: rgba(214,214,221,0.95);
     align-items: stretch; /* cambia el "start" que tenías */

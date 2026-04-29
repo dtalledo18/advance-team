@@ -39,7 +39,8 @@ import illinoisRaw from '../images/usa-il.svg?raw';
 
 <style is:global>
     .outer-container {
-        padding: 0 20px;
+
+        padding: 0 0 100px 0;
         background: rgba(214,214,221,0.95);
         display: flex;
         flex-direction: column;
@@ -48,7 +49,14 @@ import illinoisRaw from '../images/usa-il.svg?raw';
         min-height: 100vh;
         font-family: 'Inter', sans-serif;
     }
-    .services-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 80px; }
+    .services-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 80px;
+        width: 100%;
+        padding: 0 148px;
+    }
     .section-label { font-size: 10px; letter-spacing: .4em; text-transform: uppercase; color: var(--muted); }
 
     .map-card {
